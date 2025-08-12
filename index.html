@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern To-Do List with Gemini AI</title>
+    
+    <!-- Tailwind CSS Library -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans h-full flex items-center justify-center p-4 transition-colors duration-300">
+
+    <!-- Wrapper template for the main application -->
+    <template id="app-container-wrapper">
+        <!-- Main Container -->
+        <div id="app-container" class="w-full max-w-4xl mx-auto">
+
+            <!-- Auth View -->
+            <div id="auth-view" class="max-w-md mx-auto">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-2">Welcome</h2>
+                    <p class="text-center text-gray-500 dark:text-gray-400 mb-8">Sign in or create an account.</p>
+                    <div id="auth-form">
+                        <!-- ✨ New Name Field -->
+                        <input type="text" id="name" placeholder="Name (for new accounts)" class="w-full px-4 py-3 mb-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="email" id="email" placeholder="Email" class="w-full px-4 py-3 mb-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="password" id="password" placeholder="Password (6+ characters)" class="w-full px-4 py-3 mb-6 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">Login</button>
+                            <button id="signup-btn" class="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white font-bold py-3 px-4 rounded-lg transition duration-300">Sign Up</button>
+                        </div>
+                    </div>
+                    <div class="relative flex py-5 items-center">
+                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                        <span class="flex-shrink mx-4 text-gray-400 dark:text-gray-500 text-sm">OR</span>
+                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                    </div>
+                    <button id="google-login-btn" class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center shadow-sm">
+                        <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.519-3.317-11.28-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C41.38,36.151,44,30.638,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+                        Sign in with Google
+                    </button>
+                     <button id="anon-login-btn" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">Continue Anonymously</button>
+                </div>
+            </div>
+
+            <!-- Main App View -->
+            <div id="main-app-view" class="hidden">
+                <header class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">My Tasks</h1>
+                        <p class="text-gray-500 dark:text-gray-400">Hello, <span id="user-email-display">guest</span>! You have <span id="task-count">0</span> tasks.</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">User ID: <span id="user-id-display"></span></p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                         <button id="logout-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Logout</button>
+                    </div>
+                </header>
+
+                <!-- Add Task Section -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg mb-6 border border-gray-200 dark:border-gray-700">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                        <input type="text" id="new-task-title" placeholder="What needs to be done? Or a big goal?" class="md:col-span-3 w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <select id="new-task-priority" class="md:col-span-1 w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+                        <button id="add-task-btn" class="md:col-span-1 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <span class="ml-2">Add</span>
+                        </button>
+                        <button id="breakdown-task-btn" class="md:col-span-1 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg flex items-center justify-center">
+                            <span class="btn-text">✨ Break Down</span>
+                            <svg class="animate-spin h-5 w-5 text-white hidden btn-loader" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="flex justify-center gap-2 mb-8">
+                    <button data-filter="all" class="filter-btn bg-blue-500 text-white py-2 px-5 rounded-full text-sm font-semibold">All</button>
+                    <button data-filter="active" class="filter-btn bg-white dark:bg-gray-700 py-2 px-5 rounded-full text-sm font-semibold">Active</button>
+                    <button data-filter="completed" class="filter-btn bg-white dark:bg-gray-700 py-2 px-5 rounded-full text-sm font-semibold">Completed</button>
+                    <button id="suggest-task-btn" class="bg-teal-500 hover:bg-teal-600 text-white py-2 px-5 rounded-full text-sm font-semibold flex items-center gap-2">
+                        <span class="btn-text">✨ Suggest Task</span>
+                        <svg class="animate-spin h-4 w-4 text-white hidden btn-loader" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Task List -->
+                <div id="task-list" class="space-y-4"></div>
+                <div id="loading-spinner" class="hidden text-center py-10">
+                    <svg class="animate-spin h-8 w-8 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="mt-2 text-gray-500 dark:text-gray-400">Loading tasks...</p>
+                </div>
+                <p id="empty-state" class="hidden text-center py-10 text-gray-500 dark:text-gray-400">No tasks yet. Add one to get started!</p>
+            </div>
+        </div>
+        
+        <!-- Toast Notification -->
+        <div id="toast" class="hidden fixed bottom-5 right-5 bg-gray-800 text-white py-3 px-6 rounded-lg shadow-lg animate-fadeIn">
+            <p id="toast-message"></p>
+        </div>
+    </template>
+
+    <!-- Link to your JavaScript file -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>

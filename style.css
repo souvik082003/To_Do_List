@@ -1,0 +1,26 @@
+/* Custom CSS Rules */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.task-item {
+    transition: all 0.2s ease-in-out;
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.priority-high { 
+    border-left-color: #ef4444; /* red-500 */
+}
+
+.priority-medium { 
+    border-left-color: #f97316; /* orange-500 */
+}
+
+.priority-low { 
+    border-left-color: #22c55e; /* green-500 */
+}
