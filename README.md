@@ -1,4 +1,4 @@
-# Modern To-Do List with Gemini AI
+# Modern To-Do List
 
 A sleek, responsive to-do list web app that integrates **Firebase Authentication & Firestore** with **Google Gemini AI** for smart task breakdowns and suggestions.  
 Built with **HTML**, **Tailwind CSS**, and **JavaScript**.
