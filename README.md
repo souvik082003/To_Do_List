@@ -2,7 +2,7 @@
 
 A sleek, responsive to-do list web app that integrates **Firebase Authentication & Firestore** with **Google Gemini AI** for smart task breakdowns and suggestions.  
 Built with **HTML**, **Tailwind CSS**, and **JavaScript**.
-
+quickdraw1
 ## ✨ Features
 - **User Authentication**  
   - Email & Password Sign Up / Login  
