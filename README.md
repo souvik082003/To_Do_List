@@ -7,7 +7,8 @@ Built with **HTML**, **Tailwind CSS**, and **JavaScript**.
 - **User Authentication**  
   - Email & Password Sign Up / Login  
   - Google Sign-In  
-  - Anonymous guest mode  
+  - Anonymous guest mode
+  - add anything you want
 - **Task Management**  
   - Add, complete, delete tasks  
   - Filter tasks by status (All, Active, Completed)  
